@@ -1,4 +1,4 @@
-This project is about an e-commerce website where the user can Signup, LogIn, Logout, Add items, Delete Items, Update items and store items to his/her cart
+This project is about an e-commerce website where the user can Signup, LogIn, Logout, Add items, Delete Items, Update items, store items to his/her cart, delete himself and update his profile 
 
 Use these commands to run the backend
 1) Go to the backend folder using cd backend
