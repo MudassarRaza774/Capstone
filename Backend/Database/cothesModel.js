@@ -1,41 +1,41 @@
 const mongoose = require('mongoose')
 const schema = new mongoose.Schema(
     {
-        images: {
+        images: { //done
             type: Array,
             required: true
         },
-        price: {
+        price: { //done
             type: Number,
             required: true
         },
-        description: {
+        description: { //done
             type: String,
             required: true
         },
-        size: {
+        size: { //done
             type: String,
             required: true
         },
-        stuff: {
+        stuff: { //done
             type: String,
             required: true
         },
-        guidelines: {
+        guidelines: { //done
+            type: Array,
+            required: true
+        },
+        catagory: { //done
             type: String,
             required: true
         },
-        catagory: {
+        name: { //done
             type: String,
             required: true
         },
-        name:{
-            type:String,
-            required:true
-        },
-        color:{
-            type:String,
-            required:true
+        color: { //done
+            type: String,
+            required: true
         }
     },
     { timestamps: true }

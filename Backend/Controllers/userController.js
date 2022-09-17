@@ -13,21 +13,22 @@ const login = async (req, res) => {
     }
     const result = await Users.findOne({ email: email })
     if (result) {
-        const token = await result.generateAuthToken()
-        res.cookie("token", token, {
-            httpOnly: true,
-            expires: new Date(Date.now() + 300000)
-        })
         const isMatch = await bcrypt.compare(password, result.password)
         if (!isMatch) {
             return res.status(404).json("Username or Password is wrong")
         } else {
+            const token = await result.generateAuthToken()
+            res.cookie("token", token, {
+                expires: new Date(Date.now() + 600000)
+            })
             res.status(200).json(result)
         }
     } else {
         return res.status(404).json("username or password is wrong")
     }
 }
+
+
 
 //Signup
 const signUp = async (req, res) => {
@@ -41,7 +42,7 @@ const signUp = async (req, res) => {
         res.status(200).json(result)
     }
     catch (error) {
-        res.status(400).json("Email or username already exists", error)
+        res.status(500).json("Email or username already exists")
     }
 }
 
@@ -65,32 +66,6 @@ const deleteUser = async (req, res) => {
     }
 
 }
-const updateUser = async (req, res) => {
-    const token = req.cookies.token
-    const { id } = req.params
-    try {
-        const loggedUserId = await jwt.verify(token, process.env.SECRET_KEY)
-        if (loggedUserId._id === id) {
-            if (!Object.keys(req.body).length) {
-                return res.status(404).json({ "message": "You can't leave the fields empty :(" })
-            }
-            const result = await Users.findOneAndUpdate(
-                { _id: id },
-                { ...req.body }
-            )
-            if (!result) {
-                res.status(404).json({ "message": "You just changed noting :(" })
-            } else {
-                res.status(200).json({ "message": "Profile updated successfully :)" })
-            }
-        } else {
-            res.status(404).json({ "message": "Your mention id matched nothing" })
-        }
-    } catch (err) {
-        res.status(400).json({ "message": "You have to login first :}" })
-    }
-
-}
 
 //logout
 const logout = (req, res) => {
@@ -107,4 +82,4 @@ const logout = (req, res) => {
     }
 }
 
-module.exports = { login, signUp, logout, deleteUser, updateUser }
+module.exports = { login, signUp, logout, deleteUser }

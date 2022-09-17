@@ -1,11 +1,13 @@
 const express = require('express')
 const Router = express.Router()
 const {
-    getAllClothes, addCloth, deleteCloth, updateItem
+    addCloth, deleteCloth, updateItem, getSpecificClothes, getFilteredItems
 } = require('../Controllers/clothesController')
 
-//this will get all the clothes
-Router.get('/allVariety', getAllClothes)
+//get all clothes
+Router.get('/allVariety/:id', getSpecificClothes)
+//get filtered items
+Router.get('/allVariety/filter/:id', getFilteredItems)
 //add item
 Router.post('/addItem', addCloth)
 //delete item

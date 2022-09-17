@@ -22,12 +22,23 @@ const putCartItems = async (req, res) => {
 //remove single cart item or many as we want
 const deleteCart = async (req, res) => {
     const { id } = req.params
-    const newId = id.split(',')
-    const deletion = await Cart.deleteMany({ _id: { $in: newId } });
+    const deletion = await Cart.deleteOne({ _id: id });
     if (!deletion.deletedCount) {
         return res.status(404).json({ error: "Unable to delete the given cart item" })
     } else {
         res.status(200).json({ message: "given id deleted" })
     }
 }
-module.exports = { getCartItems, putCartItems, deleteCart }
+
+const deleteAll = async (req, res) => {
+    const { id } = req.params
+    console.log("id", id)
+    const result = await Cart.deleteMany({ userName: id })
+    console.log("result", result)
+    if (result.deletedCount === 0) {
+        return res.status(400).json({ "message": "an error occured" })
+    } else {
+        res.status(200).json({ "message": "All items deleted" })
+    }
+}
+module.exports = { getCartItems, putCartItems, deleteCart, deleteAll }
